@@ -37,7 +37,6 @@ def create_grid_from_str(canvas, inp_str):
     outer_shell = []
     inner_shell = []
     while True:
-        print(inp_str)
         if not len(inp_str):
             outer_shell.append(inner_shell)
             break

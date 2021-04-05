@@ -17,6 +17,7 @@ def start():
     client.connect(ADDR)
     print(f'Connected to {SERVER}')
 
+    send(client, format_pos_msg())
     comm_queue = Queue.Queue()
     while not comm_queue.get_size():
         fish(comm_queue, client)
@@ -27,6 +28,16 @@ def start():
 def fish(comm_queue, client):
     msg = client.recv(2048).decode(FORMAT)
     comm_queue.insert(msg)
+
+
+def format_pos_msg(check=False):
+    while not check:
+        inp = input('Please input desired start pos:')
+        if len(inp.split()) >= 2:
+            check = True
+        else:
+            inp = input('Please input desired start pos:')
+    return inp
 
 
 def send(client, msg):
