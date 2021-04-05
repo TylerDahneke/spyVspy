@@ -36,14 +36,17 @@ def get_id():
 
 class agent:
 
-    def __init__(self, canvas, color=None):
+    def __init__(self, canvas, color=None, id=None):
         self.canvas = canvas
         self.canvas_shape = None
         if color is None:
             self.color = 'blue'
         else:
             self.color = color
-        self.id = get_id()
+        if id is None:
+            self.id = get_id()
+        else:
+            self.id = id
 
     def __repr__(self):
         return str(self.id)
@@ -56,6 +59,11 @@ class agent:
         y -= AgentHeight // 2
         self.canvas_shape = self.canvas.create_oval(x, y, x + AgentWidth, y + AgentHeight,
                                                     fill=self.color)
+
+    def move(self, delta_pos):
+        delta_x, delta_y = delta_pos
+        self.canvas.move(self.canvas_shape, delta_x, delta_y)
+
 
     def delete_shape(self):
         self.canvas.delete(self.canvas_shape)
