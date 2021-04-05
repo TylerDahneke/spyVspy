@@ -32,12 +32,15 @@ ColorList = ['blue', 'red', 'green', 'yellow', 'orange', 'purple']
 
 class Tile:
 
-    def __init__(self, canvas, pos):
+    def __init__(self, canvas, pos, server=False):
         self.canvas = canvas
         self.x, self.y = self.pos = pos
-        self.canvas_shape = self.draw_base_tile()
         self.agent_list = []
         self.num_agents = 0
+        if server is False:
+            self.canvas_shape = self.draw_base_tile()
+        else:
+            self.canvas_shape = None
 
     def __repr__(self):
         return f'{self.pos}, {self.agent_list}'
@@ -85,15 +88,16 @@ class Tile:
         r_str = ''
         r_str += f'{self.x}.{self.y}.'
         for agent in self.agent_list:
-            r_str += f'{agent.color}.'
+            r_str += f'{agent.color}.{agent.id}.'
         r_str += ' '
         return r_str
 
 
 class Grid:
 
-    def __init__(self, canvas, contents=None):
+    def __init__(self, canvas, contents=None, server=False):
         self.canvas = canvas
+        self.server = server
         if contents is None:
             self.contents = self.get_contents()
         else:
@@ -108,7 +112,7 @@ class Grid:
             inner_shell = []
             for row_index in range(TileInRow):
                 new_tile_pos = (row_index * TotalTileWidth, col_index * TotalTileHeight)
-                new_tile = Tile(self.canvas, new_tile_pos)
+                new_tile = Tile(self.canvas, new_tile_pos, self.server)
                 inner_shell.append(new_tile)
             outer_shell.append(inner_shell)
         return outer_shell

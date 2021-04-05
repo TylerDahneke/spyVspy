@@ -25,9 +25,11 @@ class Queue:
         else:
             self.last.set_next(new_node)
             self.last = new_node
+        self.num_items += 1
 
     def pop(self):
         if not self.is_empty():
+            self.num_items -= 1
             ph = self.first.data
             self.first = self.first.next
             return ph

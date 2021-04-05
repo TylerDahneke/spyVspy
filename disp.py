@@ -1,6 +1,7 @@
 import tkinter as tk
 import spy_agent
 import spy_grid
+import client
 
 # GLOBALS
 
@@ -24,7 +25,7 @@ AgentHeight = .3 * RawTileHeight
 
 ColorList = ['blue', 'red', 'green', 'yellow', 'orange', 'purple']
 
-InputGrid = '0.0. 100.0. 200.0. 300.0. 400.0. 500.0._0.100. 100.100. 200.100. 300.100. 400.100.blue.red. 500.100._0.200. ' \
+InputGrid = '0.0. 100.0. 200.0. 300.0. 400.0. 500.0._0.100. 100.100. 200.100. 300.100. 400.100.blue.0. 500.100._0.200. ' \
             '100.200. 200.200. 300.200. 400.200. 500.200._0.300.red.0. 100.300. 200.300. 300.300. 400.300. ' \
             '500.300._0.400. 100.400. 200.400.green.1. 300.400. 400.400. 500.400._0.500. 100.500. 200.500. 300.500. 400.500. ' \
             '500.500._ '
@@ -36,7 +37,8 @@ def create_grid_from_str(canvas, inp_str):
     outer_shell = []
     inner_shell = []
     while True:
-        if inp_str == ' ':
+        print(inp_str)
+        if not len(inp_str):
             outer_shell.append(inner_shell)
             break
         x_pos, inp_str = int(inp_str[:inp_str.find('.')]), inp_str[inp_str.find('.') + 1:]
@@ -64,11 +66,9 @@ class display:
         self.master = master
         self.canvas = tk.Canvas(master, width=BoardWidth, height=BoardHeight)
 
-        self.grid_adt = spy_grid.Grid(self.canvas)
+        self.grid_adt = create_grid_from_str(self.canvas, client.start())
 
-        self.agent = spy_agent.agent(self.canvas)
 
-        self.grid_adt.add_agent(self.agent)
 
         self.canvas.pack()
 
